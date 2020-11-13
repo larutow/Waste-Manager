@@ -25,8 +25,10 @@ namespace WasteManager.Data
                 .HasData(
                     new IdentityRole
                     {
+                        Id = "dd57f3cb-54b6-4aaf-ac41-b8ff9a22ca8d",
                         Name = "Admin",
-                        NormalizedName = "ADMIN"
+                        NormalizedName = "ADMIN",
+                        ConcurrencyStamp = "360217b0-d9be-4a4d-9317-4f0eb0b3c7fe"
                     }
                 );
 
@@ -34,8 +36,10 @@ namespace WasteManager.Data
                 .HasData(
                     new IdentityRole
                     {
+                        Id = "2df5c37f-a80f-49e5-9753-408f3036c8fb",
                         Name = "Customer",
-                        NormalizedName = "CUSTOMER"
+                        NormalizedName = "CUSTOMER",
+                        ConcurrencyStamp = "1177775b-0409-47db-a323-2710e24c0f01"
                     }
                 );
 
@@ -43,8 +47,10 @@ namespace WasteManager.Data
                 .HasData(
                     new IdentityRole
                     {
+                        Id = "0bbfff3b-1110-49b3-bf07-d783215f0ab8",
                         Name = "Employee",
-                        NormalizedName = "EMPLOYEE"
+                        NormalizedName = "EMPLOYEE",
+                        ConcurrencyStamp = "6978ca47-329f-4470-a523-8eb2c88c4882"
                     }
                 );
 
