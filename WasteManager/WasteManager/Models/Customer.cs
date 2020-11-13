@@ -16,12 +16,19 @@ namespace WasteManager.Models
         public string FirstName { get; set; }
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+        [Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
+        [Display(Name = "City, State")]
         public string CityState { get; set; }
+        [Display(Name = "Zipcode")]
         public int zip { get; set; }
+        [Display(Name = "Pickup Day")]
         public DayOfWeek WeeklyPickupDay { get; set; }
+        [Display(Name = "Monthly Extra Date")]
         public DateTime MonthlyExtraDate { get; set; }
+        [Display(Name = "Pause Service Date")]
         public DateTime PickupPause { get; set; }
+        [Display(Name = "Resume Service Date")]
         public DateTime PickupResume { get; set; }
         public double Balance { get; set; }
 
