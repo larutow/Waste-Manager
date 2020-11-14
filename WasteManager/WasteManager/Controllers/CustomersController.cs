@@ -22,18 +22,16 @@ namespace WasteManager.Controllers
         // GET: CustomersController
         public ActionResult Index()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
-            try
+            //identify userId
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);        
+            var cust = _context.Customers.Where(i => i.IdentityUserId == userId).FirstOrDefault();
+            if(cust == null)
             {
-                var cust = _context.Customers.Where(i => i.IdentityUserId == userId).FirstOrDefault();
-            }
-            catch
-            {
-                Create();
+                return RedirectToAction("Create");
             }
             
-            return View(_context.Customers.Where(i => i.IdentityUserId == userId).FirstOrDefault());
+            return View(cust);
+
         }
 
         // GET: CustomersController/Details/5
