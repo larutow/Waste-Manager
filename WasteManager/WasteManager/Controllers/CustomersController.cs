@@ -40,10 +40,16 @@ namespace WasteManager.Controllers
             return View();
         }
 
+        public ActionResult PickupServices(int id)
+        {
+            return View(_context.Customers.Where(i => i.Id == id).FirstOrDefault());
+        }
+
         // GET: CustomersController/Create
         public ActionResult Create()
         {
-            return View();
+            var newCustomer = new Customer();
+            return View(newCustomer);
         }
 
         // POST: CustomersController/Create
@@ -54,6 +60,7 @@ namespace WasteManager.Controllers
             try
             {
                 _context.Customers.Add(customer);
+                customer.IdentityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
@@ -66,7 +73,7 @@ namespace WasteManager.Controllers
         // GET: CustomersController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(_context.Customers.Where(i => i.Id == id).FirstOrDefault());
         }
 
         // POST: CustomersController/Edit/5
