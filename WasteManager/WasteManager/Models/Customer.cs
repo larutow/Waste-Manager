@@ -30,11 +30,14 @@ namespace WasteManager.Models
         public int zip { get; set; }
         [Required]
         [Display(Name = "Pickup Day")]
-        public DayOfWeek WeeklyPickupDay { get; set; }
+        public DayOfWeek? WeeklyPickupDay { get; set; }
+
         [Display(Name = "Monthly Extra Date")]
         public DateTime? MonthlyExtraDate { get; set; }
+
         [Display(Name = "Pause Service Date")]
         public DateTime? PickupPause { get; set; }
+
         [Display(Name = "Resume Service Date")]
         public DateTime? PickupResume { get; set; }
         public double? Balance { get; set; }

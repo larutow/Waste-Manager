@@ -21,7 +21,7 @@
                         <a class="nav-link" href="#">Billing</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Service Options</a>
+                        <a class="nav-link" asp-action="PickupServices" asp-route-id="@Model.Id">Service Options</a>
                     </li>
                 </ul>
             </div>
@@ -64,7 +64,7 @@
                     <dd class="col-sm-9">
                         @Html.DisplayFor(model => model.WeeklyPickupDay)
                     </dd>
-                    @*<dt class="col-sm-3">
+                    <dt class="col-sm-3">
                         @Html.DisplayNameFor(model => model.MonthlyExtraDate)
                     </dt>
                     <dd class="col-sm-9">
@@ -88,7 +88,7 @@
                     <dd class="col-sm-9">
                         @Html.DisplayFor(model => model.Balance)
                     </dd>
-                    <dt class="col-sm-3">
+                    @*<dt class="col-sm-3">
                         @Html.DisplayNameFor(model => model.IdentityUser)
                     </dt>
                     <dd class="col-sm-9">

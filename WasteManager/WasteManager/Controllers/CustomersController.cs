@@ -41,9 +41,26 @@ namespace WasteManager.Controllers
             return View();
         }
 
+        // GET CustomerController/PickupServices
         public ActionResult PickupServices(int id)
         {
-            return View(_context.Customers.Where(i => i.Id == id).FirstOrDefault());
+            var cust = _context.Customers.Where(i => i.Id == id).FirstOrDefault();
+            return View(cust);
+        }
+
+        // POST: CustomerController/PickupServices
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PickupServices(Customer customerDates)
+        {
+            var thisCust = _context.Customers.Where(i => i.Id == customerDates.Id).FirstOrDefault();
+            thisCust.WeeklyPickupDay = customerDates.WeeklyPickupDay;
+            thisCust.MonthlyExtraDate = customerDates.MonthlyExtraDate;
+            thisCust.PickupPause = customerDates.PickupPause;
+            thisCust.PickupResume = customerDates.PickupResume;
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         // GET: CustomersController/Create
@@ -67,10 +84,10 @@ namespace WasteManager.Controllers
             }
             catch
             {
-                return View();
+                return View(customer);
             }
         }
-
+        //edits customer's basic profile (Name/Address/Pickup Day)
         // GET: CustomersController/Edit/5
         public ActionResult Edit(int id)
         {
