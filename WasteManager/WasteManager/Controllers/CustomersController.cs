@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace WasteManager.Controllers
                 _context.Customers.Add(customer);
                 customer.IdentityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -73,21 +74,26 @@ namespace WasteManager.Controllers
         // GET: CustomersController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View(_context.Customers.Where(i => i.Id == id).FirstOrDefault());
+            var customer = _context.Customers.Where(i => i.Id == id).FirstOrDefault();
+
+
+            return View(customer);
         }
 
         // POST: CustomersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Customer customer)
         {
             try
             {
+                _context.Update(customer);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(customer);
             }
         }
 

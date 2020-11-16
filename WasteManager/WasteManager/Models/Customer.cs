@@ -13,16 +13,22 @@ namespace WasteManager.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
+        [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
         [Display(Name = "Street Address")]
+        [Required]
         public string StreetAddress { get; set; }
+        [Required]
         [Display(Name = "City, State")]
         public string CityState { get; set; }
+        [Required]
         [Display(Name = "Zipcode")]
         public int zip { get; set; }
+        [Required]
         [Display(Name = "Pickup Day")]
         public DayOfWeek WeeklyPickupDay { get; set; }
         [Display(Name = "Monthly Extra Date")]

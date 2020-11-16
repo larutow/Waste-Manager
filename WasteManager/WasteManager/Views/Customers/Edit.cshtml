@@ -1,17 +1,24 @@
 ﻿@model WasteManager.Models.Customer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Welcome</h1>
+<h1>Edit</h1>
 
-<h4>New Customer Profile</h4>
+<h4>Customer</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="IdentityUserId" />
+            <input type="hidden" asp-for="IdentityUser" />
+            <input type="hidden" asp-for="MonthlyExtraDate" />
+            <input type="hidden" asp-for="PickupPause" />
+            <input type="hidden" asp-for="PickupResume" />
+            <input type="hidden" asp-for="Balance" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -42,40 +49,13 @@
                 <select asp-for="WeeklyPickupDay" asp-items="Model.DaysAvailable" class="form-control"></select>
                 <span asp-validation-for="WeeklyPickupDay" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="MonthlyExtraDate" class="control-label"></label>
-                <input asp-for="MonthlyExtraDate" class="form-control" />
-                <span asp-validation-for="MonthlyExtraDate" class="text-danger"></span>
-            </div>
             <div class="form-group">
-                <label asp-for="PickupPause" class="control-label"></label>
-                <input asp-for="PickupPause" class="form-control" />
-                <span asp-validation-for="PickupPause" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PickupResume" class="control-label"></label>
-                <input asp-for="PickupResume" class="form-control" />
-                <span asp-validation-for="PickupResume" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Balance" class="control-label"></label>
-                <input asp-for="Balance" class="form-control" />
-                <span asp-validation-for="Balance" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdentityUserId" class="control-label"></label>
-                <select asp-for="IdentityUserId" class ="form-control" asp-items="ViewBag.IdentityUserId"></select>
-            </div>*@
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
