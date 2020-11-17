@@ -36,7 +36,7 @@ namespace WasteManager.Controllers
         // GET: EmployeesController/CustomerList
         public ActionResult DailyList(DayOfWeek dateselected)
         {
-            var thisEmployee = _context.Employees.Where(e => e.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
+            Employee thisEmployee = _context.Employees.Where(e => e.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
 
             //var customersToDisplay = _context.Customers.Where(c => c.WeeklyPickupDay == DateTime.Today.DayOfWeek && c.zip == employee.zip);
 
