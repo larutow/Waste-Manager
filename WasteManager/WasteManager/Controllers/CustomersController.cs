@@ -45,19 +45,21 @@ namespace WasteManager.Controllers
         public ActionResult PickupServices(int id)
         {
             var cust = _context.Customers.Where(i => i.Id == id).FirstOrDefault();
-            return View(cust);
+            CustomerDaysViewModel custDays = new CustomerDaysViewModel();
+            custDays.Customer = cust;
+            return View(custDays);
         }
 
         // POST: CustomerController/PickupServices
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult PickupServices(Customer customerDates)
+        public ActionResult PickupServices(CustomerDaysViewModel viewmodel)
         {
-            var thisCust = _context.Customers.Where(i => i.Id == customerDates.Id).FirstOrDefault();
-            thisCust.WeeklyPickupDay = customerDates.WeeklyPickupDay;
-            thisCust.MonthlyExtraDate = customerDates.MonthlyExtraDate;
-            thisCust.PickupPause = customerDates.PickupPause;
-            thisCust.PickupResume = customerDates.PickupResume;
+            var thisCust = _context.Customers.Where(i => i.Id == viewmodel.Customer.Id).FirstOrDefault();
+            thisCust.WeeklyPickupDay = viewmodel.Customer.WeeklyPickupDay;
+            thisCust.MonthlyExtraDate = viewmodel.Customer.MonthlyExtraDate;
+            thisCust.PickupPause = viewmodel.Customer.PickupPause;
+            thisCust.PickupResume = viewmodel.Customer.PickupResume;
             _context.SaveChanges();
 
             return RedirectToAction("Index");
@@ -67,7 +69,9 @@ namespace WasteManager.Controllers
         public ActionResult Create()
         {
             var newCustomer = new Customer();
-            return View(newCustomer);
+            CustomerDaysViewModel custDays = new CustomerDaysViewModel();
+            custDays.Customer = newCustomer;
+            return View(custDays);
         }
 
         // POST: CustomersController/Create

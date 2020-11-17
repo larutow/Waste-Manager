@@ -1,4 +1,4 @@
-﻿@model WasteManager.Models.Customer
+﻿@model WasteManager.Models.CustomerDaysViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,34 +13,34 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <label asp-for="Customer.FirstName" class="control-label"></label>
+                <input asp-for="Customer.FirstName" class="form-control" />
+                <span asp-validation-for="Customer.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <label asp-for="Customer.LastName" class="control-label"></label>
+                <input asp-for="Customer.LastName" class="form-control" />
+                <span asp-validation-for="Customer.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StreetAddress" class="control-label"></label>
-                <input asp-for="StreetAddress" class="form-control" />
-                <span asp-validation-for="StreetAddress" class="text-danger"></span>
+                <label asp-for="Customer.StreetAddress" class="control-label"></label>
+                <input asp-for="Customer.StreetAddress" class="form-control" />
+                <span asp-validation-for="Customer.StreetAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CityState" class="control-label"></label>
-                <input asp-for="CityState" class="form-control" />
-                <span asp-validation-for="CityState" class="text-danger"></span>
+                <label asp-for="Customer.CityState" class="control-label"></label>
+                <input asp-for="Customer.CityState" class="form-control" />
+                <span asp-validation-for="Customer.CityState" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="zip" class="control-label"></label>
-                <input asp-for="zip" class="form-control" />
-                <span asp-validation-for="zip" class="text-danger"></span>
+                <label asp-for="Customer.Zip" class="control-label"></label>
+                <input asp-for="Customer.Zip" class="form-control" />
+                <span asp-validation-for="Customer.Zip" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="WeeklyPickupDay" class="control-label"></label>
-                <select asp-for="WeeklyPickupDay" asp-items="Model.DaysAvailable" class="form-control"></select>
-                <span asp-validation-for="WeeklyPickupDay" class="text-danger"></span>
+                <label asp-for="Customer.WeeklyPickupDay" class="control-label"></label>
+                <select asp-for="Customer.WeeklyPickupDay" asp-items="Model.DaysAvailable" class="form-control"></select>
+                <span asp-validation-for="Customer.WeeklyPickupDay" class="text-danger"></span>
             </div>
             @*<div class="form-group">
                 <label asp-for="MonthlyExtraDate" class="control-label"></label>

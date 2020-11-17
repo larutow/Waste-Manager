@@ -24,27 +24,74 @@ namespace WasteManager.Controllers
         {
             //identify userId
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var employee = _context.Customers.Where(i => i.IdentityUserId == userId).FirstOrDefault();
+            var employee = _context.Employees.Where(i => i.IdentityUserId == userId).FirstOrDefault();
             if (employee == null)
             {
                 return RedirectToAction("Create");
             }
 
-            return RedirectToAction("DailyList");
+            return RedirectToAction("FilteredDailyList");
         }
 
         // GET: EmployeesController/CustomerList
-        public ActionResult DailyList(DayOfWeek dateselected)
+        public ActionResult DailyList()
         {
             Employee thisEmployee = _context.Employees.Where(e => e.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
 
-            //var customersToDisplay = _context.Customers.Where(c => c.WeeklyPickupDay == DateTime.Today.DayOfWeek && c.zip == employee.zip);
+            DateTime dateFilter = DateTime.Today;
+            DayOfWeek dayFilter = dateFilter.DayOfWeek;
+            int zipFilter = thisEmployee.Zip;
+            
+            //Query:
+            //Find customers WHERE:
+            //customer is in employee zip
+            //AND WHERE 
+            //  customer pickup is == date filter (today in this method)
+            //  OR
+            //  customer extradate == date filter (today in this method)
+            //AND WHERE
+            //  (pickup pause == null) OR (pickup pause > today)
+            //   AND
+            //  (pickup resume == null) OR (pickup pause <= today)
 
-            int todayOrSelected = (int?)dateselected ?? (int)DateTime.Today.DayOfWeek;
-            DayOfWeek filter = (DayOfWeek)todayOrSelected;
+            var customersToDisplay = _context.Customers.Where(c => (c.Zip == zipFilter) && ((c.WeeklyPickupDay == dayFilter)||(c.MonthlyExtraDate == dateFilter)) && (((c.PickupPause == null)||(c.PickupPause > dateFilter)) && ((c.PickupResume == null)||(c.PickupResume>=dateFilter)))).ToList();
+            DailyListViewModel model = new DailyListViewModel();
+            model.Customers = customersToDisplay;
+            
 
+            return View(model);
+        }
 
-            return View();
+        // GET: EmployeesController/CustomerList
+        public ActionResult FilteredDailyList(int? dayOfWeekSelected)
+        {
+            Employee thisEmployee = _context.Employees.Where(e => e.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
+
+            int dayVal = dayOfWeekSelected ?? (int)DateTime.Today.DayOfWeek;
+            DateTime weekStart = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+            DateTime dateFilter = weekStart.AddDays(dayVal);
+            DayOfWeek dayFilter = (DayOfWeek)dayVal;
+
+            int zipFilter = thisEmployee.Zip;
+
+            //Query:
+            //Find customers WHERE:
+            //customer is in employee zip
+            //AND WHERE 
+            //  customer pickup is == day filter (today in this method)
+            //  OR
+            //  customer extradate == date filter (today in this method)
+            //AND WHERE
+            //  (pickup pause == null) OR (pickup pause > today)
+            //   AND
+            //  (pickup resume == null) OR (pickup pause <= today)
+
+            var customersToDisplay = _context.Customers.Where(c => (c.Zip == zipFilter) && ((c.WeeklyPickupDay == dayFilter) || (c.MonthlyExtraDate == dateFilter)) && (((c.PickupPause == null) || (c.PickupPause > dateFilter)) && ((c.PickupResume == null) || (c.PickupResume >= dateFilter)))).ToList();
+            
+            DailyListViewModel modelview = new DailyListViewModel();
+            modelview.Customers = customersToDisplay;
+            modelview.DayFilter = (int)dayFilter;
+            return View(modelview);
         }
 
         // GET: EmployeesController/Details/5

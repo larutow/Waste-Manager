@@ -1,0 +1,95 @@
+﻿@model IEnumerable<WasteManager.Models.Customer>
+
+@{
+    ViewData["Title"] = "DailyList";
+}
+
+<h1>Daily Pickup List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StreetAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CityState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zip)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.WeeklyPickupDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MonthlyExtraDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PickupPause)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PickupResume)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Balance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityUser)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StreetAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CityState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zip)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.WeeklyPickupDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MonthlyExtraDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PickupPause)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PickupResume)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Balance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
+            </td>*@
+            
+            <td>
+                <a asp-action="PickupConfirm" asp-route-id="@item.Id">Complete Pickup</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Customer Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

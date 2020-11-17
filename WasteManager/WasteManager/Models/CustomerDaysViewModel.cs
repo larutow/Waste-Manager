@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace WasteManager.Models
 {
-    public class DailyListViewModel
+    public class CustomerDaysViewModel
     {
-        public List<Customer> Customers { get; set; }
-
-        public int? DayFilter { get; set; }
+        public Customer Customer { get; set; }
 
         public List<SelectListItem> DaysAvailable { get; set; } = new List<SelectListItem>
         {
@@ -22,6 +20,5 @@ namespace WasteManager.Models
             new SelectListItem {Value = "5", Text = "Friday"},
             new SelectListItem {Value = "6", Text = "Saturday"},
         };
-
     }
 }

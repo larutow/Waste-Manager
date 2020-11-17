@@ -1,0 +1,95 @@
+﻿@model WasteManager.Models.DailyListViewModel
+
+@{
+    ViewData["Title"] = "FilteredDailyList";
+}
+
+<h1>Daily List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Stree Address
+            </th>
+            <th>
+                City, State
+            </th>
+            <th>
+                Zip Code
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.WeeklyPickupDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MonthlyExtraDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PickupPause)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PickupResume)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Balance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityUser)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (Customer customer in Model.Customers) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => customer.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => customer.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => customer.StreetAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => customer.CityState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => customer.Zip)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.WeeklyPickupDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MonthlyExtraDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PickupPause)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PickupResume)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Balance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdentityUser.Id)
+        </td>*@
+
+            
+        <td>
+            <a asp-action="Details" asp-route-id="@customer.Id">Customer Details</a>
+            @if ((int)DateTime.Today.DayOfWeek == Model.DayFilter)
+            {<a asp-action="PickupConfirm" asp-route-id="@customer.Id"> | Complete Pickup</a>}
+            </td>
+            
+        </tr>
+}
+    </tbody>
+</table>

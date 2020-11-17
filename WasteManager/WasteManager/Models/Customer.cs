@@ -27,10 +27,10 @@ namespace WasteManager.Models
         public string CityState { get; set; }
         [Required]
         [Display(Name = "Zipcode")]
-        public int zip { get; set; }
+        public int Zip { get; set; }
         [Required]
         [Display(Name = "Pickup Day")]
-        public DayOfWeek? WeeklyPickupDay { get; set; }
+        public DayOfWeek WeeklyPickupDay { get; set; }
 
         [Display(Name = "Monthly Extra Date")]
         public DateTime? MonthlyExtraDate { get; set; }
