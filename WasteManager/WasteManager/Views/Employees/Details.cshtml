@@ -3,9 +3,10 @@
 @{
     ViewData["Title"] = "Details";
 }
+@{ var mapsApiUrl = "https://maps.googleapis.com/maps/api/js?key="+ APIkeys.Mapskey + "&callback=initMap&libraries=&v=weekly"; }
 @section Scripts{
 
-    <script src="@Url.Page("https://maps.googleapis.com/maps/api/js?key="+APIkeys.Mapskey)"
+    <script src="@mapsApiUrl"
             defer></script>
     <script>
         let map;
