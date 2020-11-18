@@ -66,34 +66,22 @@ namespace WasteManager.Controllers
             return RedirectToAction("Index", new { dayOfWeekSelected = daySelected});
         }
 
-        // GET: EmployeesController/CustomerList
-        public ActionResult DailyList()
+        public ActionResult PickupConfirm(int id)
         {
-            Employee thisEmployee = _context.Employees.Where(e => e.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
-
-            DateTime dateFilter = DateTime.Today;
-            DayOfWeek dayFilter = dateFilter.DayOfWeek;
-            int zipFilter = thisEmployee.Zip;
-            
-            //Query:
-            //Find customers WHERE:
-            //customer is in employee zip
-            //AND WHERE 
-            //  customer pickup is == date filter (today in this method)
-            //  OR
-            //  customer extradate == date filter (today in this method)
-            //AND WHERE
-            //  (pickup pause == null) OR (pickup pause > today)
-            //   AND
-            //  (pickup resume == null) OR (pickup pause <= today)
-
-            var customersToDisplay = _context.Customers.Where(c => (c.Zip == zipFilter) && ((c.WeeklyPickupDay == dayFilter)||(c.MonthlyExtraDate == dateFilter)) && (((c.PickupPause == null)||(c.PickupPause > dateFilter)) && ((c.PickupResume == null)||(c.PickupResume>=dateFilter)))).ToList();
-            EmployeeDaysViewModel model = new EmployeeDaysViewModel();
-            model.Customers = customersToDisplay;
-            
-
-            return View(model);
+            var cust = _context.Customers.Where(c => c.Id == id).FirstOrDefault();
+            return View(cust);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PickupConfirm(Customer cust)
+        {
+            var customerToUpdate = _context.Customers.Where(c => c.Id == cust.Id).FirstOrDefault();
+            customerToUpdate.Balance = customerToUpdate.Balance + 5 ?? 5;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
 
         // GET: EmployeesController/Details/5
         public ActionResult Details(int id)

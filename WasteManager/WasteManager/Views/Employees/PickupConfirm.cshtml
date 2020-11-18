@@ -1,0 +1,79 @@
+﻿@model WasteManager.Models.Customer
+
+@{
+    ViewData["Title"] = "PickupConfirm";
+}
+
+<h1>PICKUP CONFIRMATION</h1>
+
+<div>
+    <h4>Customer Information</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.StreetAddress)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.StreetAddress)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.CityState)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.CityState)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Zip)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Zip)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.WeeklyPickupDay)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.WeeklyPickupDay)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.MonthlyExtraDate)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.MonthlyExtraDate)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.PickupPause)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PickupPause)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.PickupResume)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PickupResume)
+        </dd>
+    </dl>
+</div>
+<form asp-action="PickupConfirm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <input type="submit" value="Confirm Pickup" class="btn btn-success" />
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-danger" role ="button" asp-action="Index">Back to List</a>
+</div>
