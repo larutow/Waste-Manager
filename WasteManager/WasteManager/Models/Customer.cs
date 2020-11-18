@@ -28,6 +28,8 @@ namespace WasteManager.Models
         [Required]
         [Display(Name = "Zipcode")]
         public int Zip { get; set; }
+        public double lat { get; set; }
+        public double lng { get; set; }
         [Required]
         [Display(Name = "Pickup Day")]
         public DayOfWeek WeeklyPickupDay { get; set; }
