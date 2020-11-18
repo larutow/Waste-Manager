@@ -50,7 +50,7 @@
                 Last Name
             </th>
             <th>
-                Stree Address
+                Street Address
             </th>
             <th>
                 City, State
@@ -58,24 +58,6 @@
             <th>
                 Zip Code
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.WeeklyPickupDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MonthlyExtraDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PickupPause)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PickupResume)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Balance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdentityUser)
-            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -96,27 +78,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => customer.Zip)
-            </td>
-            @*<td>
-            @Html.DisplayFor(modelItem => item.WeeklyPickupDay)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MonthlyExtraDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PickupPause)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PickupResume)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Balance)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdentityUser.Id)
-        </td>*@
-
-            
+            </td>   
         <td>
             <a asp-action="Details" asp-route-id="@customer.Id">Customer Details</a>
             @if ((int)DateTime.Today.DayOfWeek == Model.DayFilter)

@@ -98,7 +98,9 @@ namespace WasteManager.Controllers
         // GET: EmployeesController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var cust = _context.Customers.Where(c => c.Id == id).FirstOrDefault();
+            //probably need a viewmodel
+            return View(cust);
         }
 
         // GET: EmployeesController/Create
