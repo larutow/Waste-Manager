@@ -46,17 +46,17 @@ namespace WasteManager.Models
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
 
-        [NotMapped]
-        public List<SelectListItem> DaysAvailable { get; set; } = new List<SelectListItem>
-        {
-            new SelectListItem {Value = "0", Text = "Sunday"},
-            new SelectListItem {Value = "1", Text = "Monday"},
-            new SelectListItem {Value = "2", Text = "Tuesday"},
-            new SelectListItem {Value = "3", Text = "Wednesday"},
-            new SelectListItem {Value = "4", Text = "Thursday"},
-            new SelectListItem {Value = "5", Text = "Friday"},
-            new SelectListItem {Value = "6", Text = "Saturday"},
-        };
+        //[NotMapped]
+        //public List<SelectListItem> DaysAvailable { get; set; } = new List<SelectListItem>
+        //{
+        //    new SelectListItem {Value = "0", Text = "Sunday"},
+        //    new SelectListItem {Value = "1", Text = "Monday"},
+        //    new SelectListItem {Value = "2", Text = "Tuesday"},
+        //    new SelectListItem {Value = "3", Text = "Wednesday"},
+        //    new SelectListItem {Value = "4", Text = "Thursday"},
+        //    new SelectListItem {Value = "5", Text = "Friday"},
+        //    new SelectListItem {Value = "6", Text = "Saturday"},
+        //};
         //consider parameters for javascript maps api
 
         //payment information

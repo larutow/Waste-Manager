@@ -64,24 +64,40 @@
                     <dd class="col-sm-9">
                         @Html.DisplayFor(model => model.WeeklyPickupDay)
                     </dd>
-                    <dt class="col-sm-3">
-                        @Html.DisplayNameFor(model => model.MonthlyExtraDate)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.MonthlyExtraDate)
-                    </dd>
+                    @if (Model.MonthlyExtraDate != null)
+                    {
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.MonthlyExtraDate)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.MonthlyExtraDate)
+                        </dd>
+                    }
+
+                    @if (Model.MonthlyExtraDate != null)
+                    {
+
+                    }
                     <dt class="col-sm-3">
                         @Html.DisplayNameFor(model => model.PickupPause)
                     </dt>
                     <dd class="col-sm-9">
                         @Html.DisplayFor(model => model.PickupPause)
                     </dd>
+                    @if (Model.MonthlyExtraDate != null)
+                    {
+
+                    }
                     <dt class="col-sm-3">
                         @Html.DisplayNameFor(model => model.PickupResume)
                     </dt>
                     <dd class="col-sm-9">
                         @Html.DisplayFor(model => model.PickupResume)
                     </dd>
+                    @if (Model.MonthlyExtraDate != null)
+                    {
+
+                    }
                     <dt class="col-sm-3">
                         @Html.DisplayNameFor(model => model.Balance)
                     </dt>
@@ -89,11 +105,11 @@
                         @Html.DisplayFor(model => model.Balance)
                     </dd>
                     @*<dt class="col-sm-3">
-                        @Html.DisplayNameFor(model => model.IdentityUser)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.IdentityUser.Id)
-                    </dd>*@
+            @Html.DisplayNameFor(model => model.IdentityUser)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.IdentityUser.Id)
+        </dd>*@
                 </dl>
                 <div>
                     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>

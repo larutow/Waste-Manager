@@ -20,7 +20,7 @@ namespace WasteManager.Controllers
             _context = context;
         }
         // GET: EmployeesController
-        public ActionResult Index()
+        public ActionResult Index(int? dayOfWeekSelected)
         {
             //identify userId
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -30,7 +30,40 @@ namespace WasteManager.Controllers
                 return RedirectToAction("Create");
             }
 
-            return RedirectToAction("FilteredDailyList");
+            int dayVal = dayOfWeekSelected ?? (int)DateTime.Today.DayOfWeek;
+            DateTime weekStart = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+            DateTime dateFilter = weekStart.AddDays(dayVal);
+            DayOfWeek dayFilter = (DayOfWeek)dayVal;
+
+            int zipFilter = employee.Zip;
+
+            //Query:
+            //Find customers WHERE:
+            //customer is in employee zip
+            //AND WHERE 
+            //  customer pickup is == day filter (today in this method)
+            //  OR
+            //  customer extradate == date filter (today in this method)
+            //AND WHERE
+            //  (pickup pause == null) OR (pickup pause > today)
+            //   AND
+            //  (pickup resume == null) OR (pickup pause <= today)
+
+            var customersToDisplay = _context.Customers.Where(c => (c.Zip == zipFilter) && ((c.WeeklyPickupDay == dayFilter) || (c.MonthlyExtraDate == dateFilter)) && (((c.PickupPause == null) || (c.PickupPause > dateFilter)) && ((c.PickupResume == null) || (c.PickupResume >= dateFilter)))).ToList();
+
+            EmployeeDaysViewModel modelview = new EmployeeDaysViewModel();
+            modelview.Customers = customersToDisplay;
+            modelview.DayFilter = (int)dayFilter;
+
+            return View(modelview);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(EmployeeDaysViewModel viewmodel)
+        {
+            int daySelected = (int)viewmodel.DayFilter;
+            return RedirectToAction("Index", new { dayOfWeekSelected = daySelected});
         }
 
         // GET: EmployeesController/CustomerList
@@ -55,43 +88,11 @@ namespace WasteManager.Controllers
             //  (pickup resume == null) OR (pickup pause <= today)
 
             var customersToDisplay = _context.Customers.Where(c => (c.Zip == zipFilter) && ((c.WeeklyPickupDay == dayFilter)||(c.MonthlyExtraDate == dateFilter)) && (((c.PickupPause == null)||(c.PickupPause > dateFilter)) && ((c.PickupResume == null)||(c.PickupResume>=dateFilter)))).ToList();
-            DailyListViewModel model = new DailyListViewModel();
+            EmployeeDaysViewModel model = new EmployeeDaysViewModel();
             model.Customers = customersToDisplay;
             
 
             return View(model);
-        }
-
-        // GET: EmployeesController/CustomerList
-        public ActionResult FilteredDailyList(int? dayOfWeekSelected)
-        {
-            Employee thisEmployee = _context.Employees.Where(e => e.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
-
-            int dayVal = dayOfWeekSelected ?? (int)DateTime.Today.DayOfWeek;
-            DateTime weekStart = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
-            DateTime dateFilter = weekStart.AddDays(dayVal);
-            DayOfWeek dayFilter = (DayOfWeek)dayVal;
-
-            int zipFilter = thisEmployee.Zip;
-
-            //Query:
-            //Find customers WHERE:
-            //customer is in employee zip
-            //AND WHERE 
-            //  customer pickup is == day filter (today in this method)
-            //  OR
-            //  customer extradate == date filter (today in this method)
-            //AND WHERE
-            //  (pickup pause == null) OR (pickup pause > today)
-            //   AND
-            //  (pickup resume == null) OR (pickup pause <= today)
-
-            var customersToDisplay = _context.Customers.Where(c => (c.Zip == zipFilter) && ((c.WeeklyPickupDay == dayFilter) || (c.MonthlyExtraDate == dateFilter)) && (((c.PickupPause == null) || (c.PickupPause > dateFilter)) && ((c.PickupResume == null) || (c.PickupResume >= dateFilter)))).ToList();
-            
-            DailyListViewModel modelview = new DailyListViewModel();
-            modelview.Customers = customersToDisplay;
-            modelview.DayFilter = (int)dayFilter;
-            return View(modelview);
         }
 
         // GET: EmployeesController/Details/5

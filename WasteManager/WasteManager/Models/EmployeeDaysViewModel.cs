@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WasteManager.Models
 {
-    public class DailyListViewModel
+    public class EmployeeDaysViewModel
     {
         public List<Customer> Customers { get; set; }
 

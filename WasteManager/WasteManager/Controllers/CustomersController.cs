@@ -96,9 +96,9 @@ namespace WasteManager.Controllers
         public ActionResult Edit(int id)
         {
             var customer = _context.Customers.Where(i => i.Id == id).FirstOrDefault();
-
-
-            return View(customer);
+            CustomerDaysViewModel custDays = new CustomerDaysViewModel();
+            custDays.Customer = customer;
+            return View(custDays);
         }
 
         // POST: CustomersController/Edit/5
