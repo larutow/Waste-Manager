@@ -17,24 +17,18 @@
                 zoom: 13,
             });
 
-            var numValidAddresses = 0;
-
-            var latlng = [];
             @foreach(Customer customer in Model.Customers)
-                        {
-                            @if(customer.Lat != null && customer.Lng != null)
-                            {
-                                <text>
-                                latlng.push(new google.maps.LatLng(@customer.Lat, @customer.Lng));
-                                numValidAddresses++;   
-                                </text>
-                            }
-                        }
-            for (i = 0; i < numValidAddresses; i++) {
-                var marker = new google.maps.Marker({
-                    position: latlng[i],
-                    map: map,
-                });
+            {
+                @if (customer.Lat != null && customer.Lng != null)
+                {
+                    <text>
+                    var marker = new google.maps.Marker({
+                        position: {
+                            lat:@customer.Lat, lng:@customer.Lng},
+                            map: map,
+                    });
+                    </text>
+                }
             }
         }
     </script>
