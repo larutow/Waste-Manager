@@ -3,6 +3,42 @@
 @{
     ViewData["Title"] = "Index";
 }
+@{ var mapsApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + APIkeys.Mapskey + "&callback=initMap&libraries=&v=weekly"; }
+@section Scripts{
+
+    <script src="@mapsApiUrl"
+            defer></script>
+    <script>
+        let map;
+
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: @Model.MapCenterLat, lng:@Model.MapCenterLng },
+                zoom: 13,
+            });
+
+            var numValidAddresses = 0;
+
+            var latlng = [];
+            @foreach(Customer customer in Model.Customers)
+                        {
+                            @if(customer.Lat != null && customer.Lng != null)
+                            {
+                                <text>
+                                latlng.push(new google.maps.LatLng(@customer.Lat, @customer.Lng));
+                                numValidAddresses++;   
+                                </text>
+                            }
+                        }
+            for (i = 0; i < numValidAddresses; i++) {
+                var marker = new google.maps.Marker({
+                    position: latlng[i],
+                    map: map,
+                });
+            }
+        }
+    </script>
+}
 
 <h1>Daily List</h1>
 <form asp-action="Index">
@@ -62,30 +98,32 @@
         </tr>
     </thead>
     <tbody>
-@foreach (Customer customer in Model.Customers) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => customer.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => customer.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => customer.StreetAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => customer.CityState)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => customer.Zip)
-            </td>   
-        <td>
-            <a asp-action="Details" asp-route-id="@customer.Id">Customer Details</a>
-            @if ((int)DateTime.Today.DayOfWeek == Model.DayFilter)
-            {<a asp-action="PickupConfirm" asp-route-id="@customer.Id"> | Complete Pickup</a>}
-            </td>
-            
-        </tr>
-}
+        @foreach (Customer customer in Model.Customers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => customer.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => customer.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => customer.StreetAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => customer.CityState)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => customer.Zip)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@customer.Id">Customer Details</a>
+                    @if ((int)DateTime.Today.DayOfWeek == Model.DayFilter)
+                    {<a asp-action="PickupConfirm" asp-route-id="@customer.Id"> | Complete Pickup</a>}
+                </td>
+
+            </tr>
+        }
     </tbody>
 </table>
+<div class="row" id="map" style="height:500px"></div>

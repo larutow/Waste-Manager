@@ -24,6 +24,8 @@ namespace WasteManager.Models
         [Display(Name = "Zip Code")]
         [Required]
         public int Zip { get; set; }
+        public double? Lat { get; set; }
+        public double? Lng { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }

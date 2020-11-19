@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using WasteManager.Data;
@@ -54,6 +56,8 @@ namespace WasteManager.Controllers
             EmployeeDaysViewModel modelview = new EmployeeDaysViewModel();
             modelview.Customers = customersToDisplay;
             modelview.DayFilter = (int)dayFilter;
+            modelview.MapCenterLat = employee.Lat ?? -34.397;
+            modelview.MapCenterLng = employee.Lng ?? 150.644;
 
             return View(modelview);
         }
@@ -100,11 +104,27 @@ namespace WasteManager.Controllers
         // POST: EmployeesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Employee newemployee)
+        public async Task<ActionResult> Create(Employee newemployee)
         {
             try
             {
                 _context.Employees.Add(newemployee);
+
+                string address = $"{newemployee.Zip}";
+                string url = $"https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={APIkeys.Mapskey}";
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.GetAsync(url);
+                string jsonResult = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    ZipLocation employeeZip = JsonConvert.DeserializeObject<ZipLocation>(jsonResult);
+                    if (employeeZip.results[0].geometry.location_type == "APPROXIMATE")
+                    {
+                        newemployee.Lat = employeeZip.results[0].geometry.location.lat;
+                        newemployee.Lng = employeeZip.results[0].geometry.location.lng;
+                    }
+                }
+
                 newemployee.IdentityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.SaveChanges();
                 return RedirectToAction("DailyList");

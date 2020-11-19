@@ -23,5 +23,9 @@ namespace WasteManager.Models
             new SelectListItem {Value = "6", Text = "Saturday"},
         };
 
+        public double MapCenterLat { get; set; }
+        public double MapCenterLng { get; set; }
+
+
     }
 }
