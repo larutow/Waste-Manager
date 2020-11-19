@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using WasteManager.Data;
@@ -74,14 +76,31 @@ namespace WasteManager.Controllers
             return View(custDays);
         }
 
+        
         // POST: CustomersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Customer customer)
+        public async Task<ActionResult> Create(Customer customer)
         {
             try
             {
                 _context.Customers.Add(customer);
+                
+                string address = $"{customer.StreetAddress},{customer.CityState},{customer.Zip}";
+                string url = $"https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={APIkeys.Mapskey}";
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.GetAsync(url);
+                string jsonResult = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    LocationData custLocationData = JsonConvert.DeserializeObject<LocationData>(jsonResult);
+                    if(custLocationData.results[0].geometry.location_type == "ROOFTOP")
+                    {
+                        customer.Lat = custLocationData.results[0].geometry.location.lat;
+                        customer.Lng = custLocationData.results[0].geometry.location.lng;
+                    }
+                }
+
                 customer.IdentityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -104,11 +123,26 @@ namespace WasteManager.Controllers
         // POST: CustomersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Customer customer)
+        public async Task<ActionResult> Edit(Customer customer)
         {
             try
             {
                 _context.Update(customer);
+
+                string address = $"{customer.StreetAddress},{customer.CityState},{customer.Zip}";
+                string url = $"https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={APIkeys.Mapskey}";
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.GetAsync(url);
+                string jsonResult = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    LocationData custLocationData = JsonConvert.DeserializeObject<LocationData>(jsonResult);
+                    if (custLocationData.results[0].geometry.location_type == "ROOFTOP")
+                    {
+                        customer.Lat = custLocationData.results[0].geometry.location.lat;
+                        customer.Lng = custLocationData.results[0].geometry.location.lng;
+                    }
+                }
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
