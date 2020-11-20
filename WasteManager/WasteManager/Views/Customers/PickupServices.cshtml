@@ -4,12 +4,22 @@
     ViewData["Title"] = "PickupServices";
 }
 
-<h1>View</h1>
+<h1>Pickup Services</h1>
 
-<h4>Customer</h4>
+<h4>@Model.Customer.FirstName @Model.Customer.LastName</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-2">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Index">User Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Service Options</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-10">
         <form asp-action="PickupServices">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Customer.Id" />
@@ -40,9 +50,6 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

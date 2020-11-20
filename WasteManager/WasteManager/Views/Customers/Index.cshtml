@@ -43,15 +43,11 @@
     <h4>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h4>
     <hr />
 
-    <div class="container">
         <div class="row">
             <div class="col-2">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link active" href="#">User Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="Billing" asp-route-id="@Model">Billing</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-action="PickupServices" asp-route-id="@Model.Id">Service Options</a>
@@ -107,48 +103,43 @@
                         </dd>
                     }
 
-                    @if (Model.MonthlyExtraDate != null)
+                    @if (Model.PickupPause != null)
                     {
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.PickupPause)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.PickupPause)
+                        </dd>
 
                     }
-                    <dt class="col-sm-3">
-                        @Html.DisplayNameFor(model => model.PickupPause)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.PickupPause)
-                    </dd>
-                    @if (Model.MonthlyExtraDate != null)
-                    {
 
-                    }
-                    <dt class="col-sm-3">
-                        @Html.DisplayNameFor(model => model.PickupResume)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.PickupResume)
-                    </dd>
-                    @if (Model.MonthlyExtraDate != null)
+                    @if (Model.PickupResume != null)
                     {
-
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.PickupResume)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.PickupResume)
+                        </dd>
                     }
+
                     <dt class="col-sm-3">
                         @Html.DisplayNameFor(model => model.Balance)
                     </dt>
                     <dd class="col-sm-9">
                         @Html.DisplayFor(model => model.Balance)
+                        @if (Model.Balance > 0)
+                        {
+                            <button id="checkout-button" type="button" class="btn btn-primary" style="margin-left: 2.5em;">Pay Balance</button>
+                        }
                     </dd>
                 </dl>
                 <div>
-                    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                    <a asp-action="Edit" asp-route-id="@Model.Id">Edit Profile</a>
                 </div>
-                @if (Model.Balance > 0)
-                {
-                    <div>
-                        <button id="checkout-button">Pay Balance</button>
-                    </div>
-                }
+                
 
             </div>
         </div>
-    </div>
 </div>
