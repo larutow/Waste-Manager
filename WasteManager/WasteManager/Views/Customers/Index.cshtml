@@ -137,19 +137,17 @@
                     <dd class="col-sm-9">
                         @Html.DisplayFor(model => model.Balance)
                     </dd>
-                    @*<dt class="col-sm-3">
-                            @Html.DisplayNameFor(model => model.IdentityUser)
-                        </dt>
-                        <dd class="col-sm-9">
-                            @Html.DisplayFor(model => model.IdentityUser.Id)
-                        </dd>*@
                 </dl>
                 <div>
                     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
                 </div>
-                <div>
-                    <button id="checkout-button">Pay Balance</button>
-                </div>
+                @if (Model.Balance > 0)
+                {
+                    <div>
+                        <button id="checkout-button">Pay Balance</button>
+                    </div>
+                }
+
             </div>
         </div>
     </div>

@@ -50,32 +50,34 @@ namespace WasteManager.Controllers
         [HttpPost("create-checkout-session")]
         public ActionResult CreateCheckoutSession()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var cust = _context.Customers.Where(i => i.IdentityUserId == userId).FirstOrDefault();
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string>
                 {
-                  "card",
+                    "card",
                 },
                 LineItems = new List<SessionLineItemOptions>
                 {
-                  new SessionLineItemOptions
-                  {
-                    PriceData = new SessionLineItemPriceDataOptions
+                    new SessionLineItemOptions
                     {
-                      UnitAmount = 2000,
-                      Currency = "usd",
-                      ProductData = new SessionLineItemPriceDataProductDataOptions
-                      {
-                        Name = "T-shirt",
-                      },
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            UnitAmount = (long?)cust.Balance * 100,
+                            Currency = "usd",
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = "Waste Management Service Bill",
+                            },
 
+                        },
+                        Quantity = 1,
                     },
-                    Quantity = 1,
-                  },
                 },
                 Mode = "payment",
-                SuccessUrl = "https://example.com/success",
-                CancelUrl = "https://example.com/cancel",
+                SuccessUrl = Url.Action("PaySuccess","Customers", null, "https", string.Empty),
+                CancelUrl = Url.Action("Index", "Customers", null, "https", string.Empty)
             };
 
             var service = new SessionService();
@@ -84,6 +86,15 @@ namespace WasteManager.Controllers
             return Json(new { id = session.Id });
         }
 
+        public ActionResult PaySuccess()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var cust = _context.Customers.Where(i => i.IdentityUserId == userId).FirstOrDefault();
+            cust.Balance = 0;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+
+        }
 
         // GET CustomerController/PickupServices
         public ActionResult PickupServices(int id)
