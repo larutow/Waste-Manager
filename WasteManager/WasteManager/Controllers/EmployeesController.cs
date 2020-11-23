@@ -127,7 +127,7 @@ namespace WasteManager.Controllers
 
                 newemployee.IdentityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.SaveChanges();
-                return RedirectToAction("DailyList");
+                return RedirectToAction("Index");
             }
             catch
             {
